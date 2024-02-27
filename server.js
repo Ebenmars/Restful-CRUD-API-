@@ -5,20 +5,23 @@ const express = require("express");
 const mongoose = require("mongoose");
 
 //for security so people dont see the url
+const dotenv = require("dotenv");
 dotenv.config();
 
 //npm run dev when you are running nodemon
 
 const app = express();
 
-mongoose.connect(
-  process.env.MONGODB_URL
+mongoose.connect(process.env.MONGODB_URL)
   .then(() => {
     console.log("Connected to MongoDB");
+    app.listen(PORT, () => {
+      console.log(`Server is running on ${PORT}`);
+    });
   }).catch((err) => {
     console.log(err);
-  })
-);
+  });
+  
 
 const PORT = process.env.PORT || 3000;
 
@@ -27,7 +30,5 @@ app.get("/", (req, res) => {
   res.send("Hello World");
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on ${PORT}`);
-});
+
 
